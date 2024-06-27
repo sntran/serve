@@ -1,0 +1,35 @@
+{
+  "name": "@sntran/serve",
+  "version": "0.1.0",
+  "description": "Cross-runtime HTTP server",
+  "author": "Trần Nguyễn Sơn",
+  "homepage": "https://github.com/sntran/serve#readme",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "server"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sntran/serve.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sntran/serve/issues"
+  },
+  "type": "module",
+  "main": "mod.js",
+  "exports": {
+    ".": {
+      "bun": "./bun.js",
+      "workerd": "./workerd.js",
+      "default": "./mod.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "bun.js",
+    "mod.js",
+    "workerd.js"
+  ]
+}
