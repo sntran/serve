@@ -1,6 +1,6 @@
 {
   "name": "@sntran/serve",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Cross-runtime HTTP server",
   "author": "Trần Nguyễn Sơn",
   "homepage": "https://github.com/sntran/serve#readme",

@@ -1,4 +1,3 @@
-
 export function serve(handler) {
   const {
     fetch,
