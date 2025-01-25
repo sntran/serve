@@ -39,18 +39,33 @@ export function serve(handler) {
 
   const server = createServer(async (incoming, outgoing) => {
     // Converts Node's `IncomingMessage` to web `Request`.
-    let { url, headers, method, body } = incoming;
+    let { url, headers, method } = incoming;
     const abortController = new AbortController();
     headers = new Headers(headers);
     url = new URL(url, `http://${headers.get("Host")}`);
 
     incoming.once("aborted", () => abortController.abort());
 
+    let body = null;
+    if (method !== "GET" && method !== "HEAD") {
+      body = new ReadableStream({
+        start(controller) {
+          incoming.on("data", (chunk) => {
+            controller.enqueue(chunk);
+          });
+          incoming.on("end", () => {
+            controller.close();
+          });
+        },
+      });
+    }
+
     const request = new Request(url, {
       method,
       headers,
       body,
       signal: abortController.signal,
+      duplex: "half", // required by Node.js since it does not support full duplex
     });
 
     const response = await fetch(request);
