@@ -7,12 +7,14 @@ export function serve(handler) {
     onListen = ({ hostname, port }) => {
       console.log(`Listening on http://${hostname}:${port}`);
     },
+    ...options
   } = handler;
 
   const server = Bun.serve({
     fetch,
     hostname,
     port,
+    ...options,
   });
 
   signal?.addEventListener("abort", () => {

@@ -5,6 +5,12 @@ import { createServer } from "node:http";
  */
 
 /**
+ * @typedef {Object} Server
+ * @property {string} hostname
+ * @property {number} port
+ */
+
+/**
  * Serves HTTP
  *
  * Examples:
@@ -24,7 +30,8 @@ import { createServer } from "node:http";
  * @param {string} [handler.hostname]
  * @param {number} [handler.port]
  * @param {AbortSignal} [handler.signal]
- * @returns {{ hostname: string, port: number }}
+ * @param {function(Server): void} [handler.onListen]
+ * @returns {Server}
  */
 export function serve(handler) {
   const {
@@ -35,9 +42,10 @@ export function serve(handler) {
     onListen = ({ hostname, port }) => {
       console.log(`Listening on http://${hostname}:${port}`);
     },
+    ...options
   } = handler;
 
-  const server = createServer(async (incoming, outgoing) => {
+  const server = createServer(options, async (incoming, outgoing) => {
     // Converts Node's `IncomingMessage` to web `Request`.
     let { url, headers, method } = incoming;
     const abortController = new AbortController();
