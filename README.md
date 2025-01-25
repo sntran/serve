@@ -9,7 +9,7 @@ Different runtimes have different APIs for creating HTTP servers. For Node.js,
 `http.createServer` takes a handler with its own incoming and outgoing message
 objects. `Deno.serve` takes a handler with web standard `Request` and `Response`
 objects. `Bun.serve` takes an object with a `fetch` method, similar to
-Cloudflare Workers. Workers, however. handles the serving.
+Cloudflare Workers. Workers, however, handle the serving.
 
 This library takes the most common denominator of these APIs and provides a
 `serve` API that can be used across all runtimes. Similar to Bun and Cloudflare
@@ -43,6 +43,12 @@ const handler = {
   onListen({ hostname, port }) {
     console.log(`Server running at http://${hostname}:${port}`);
   },
+  // Other options are passed to the underlying server.
+  // For Node.js, it's passed to `http.createServer`.
+  keepAlive: true,
+  keepAliveTimeout: 5000, // milliseconds
+  // For Bun, it's passed to `Bun.serve`.
+  idleTimeout: 5, // seconds
 };
 
 export default handler;
